@@ -6,6 +6,7 @@ plugins {
     application
     id("com.github.johnrengelman.shadow") version "7.1.2"
     kotlin("jvm") version "1.7.0"
+    id("org.sonarqube") version "3.4.0.2513"
 }
 
 group = "com.shop"
@@ -15,6 +16,14 @@ application {
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "Alioramus_shop_backend")
+        property("sonar.organization", "alioramus")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 
 repositories {
