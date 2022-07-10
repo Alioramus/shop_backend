@@ -1,0 +1,29 @@
+GET http://localhost:8080/products
+Accept: application/json
+
+###
+GET http://localhost:8080/products/3
+Accept: application/json
+
+###
+POST http://localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "description": "Product for tests",
+  "price": 50
+}
+
+###
+DELETE http://localhost:8080/products/2
+Accept: application/json
+
+###
+PUT http://localhost:8080/products/3
+Content-Type: application/json
+
+{
+  "name": "updated name",
+  "description": "updated description"
+}
