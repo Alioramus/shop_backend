@@ -1,55 +1,39 @@
 package com.shop.plugins
 
-import io.ktor.server.routing.*
+import com.shop.resources.ordersRoutes
+import com.shop.resources.productRoutes
 import io.ktor.http.*
-import io.ktor.server.locations.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.*
 import io.ktor.server.plugins.autohead.*
 import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.application.*
+import io.ktor.server.resources.*
 import io.ktor.server.response.*
-import io.ktor.server.request.*
+import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
-    install(Locations) {
+    install(Resources) {
     }
     install(AutoHeadResponse)
     install(StatusPages) {
-        exception<AuthenticationException> { call, cause ->
+        exception<AuthenticationException> { call, _ ->
             call.respond(HttpStatusCode.Unauthorized)
         }
-        exception<AuthorizationException> { call, cause ->
+        exception<AuthorizationException> { call, _ ->
             call.respond(HttpStatusCode.Forbidden)
+        }
+        exception<NotFoundException> { call, _ ->
+            call.respond(HttpStatusCode.NotFound)
         }
 
     }
 
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
-        get<MyLocation> {
-            call.respondText("Location: name=${it.name}, arg1=${it.arg1}, arg2=${it.arg2}")
-        }
-        // Register nested routes
-        get<Type.Edit> {
-            call.respondText("Inside $it")
-        }
-        get<Type.List> {
-            call.respondText("Inside $it")
-        }
+        productRoutes()
+        ordersRoutes()
     }
 }
 
-@Location("/location/{name}")
-class MyLocation(val name: String, val arg1: Int = 42, val arg2: String = "default")
-@Location("/type/{name}")
-data class Type(val name: String) {
-    @Location("/edit")
-    data class Edit(val type: Type)
-
-    @Location("/list/{page}")
-    data class List(val type: Type, val page: Int)
-}
 
 class AuthenticationException : RuntimeException()
 class AuthorizationException : RuntimeException()
