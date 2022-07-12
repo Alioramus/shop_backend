@@ -7,13 +7,17 @@ import com.shop.models.toDTO
 import io.ktor.server.plugins.*
 import kotlinx.coroutines.runBlocking
 
+object Errors {
+    const val PRODUCT_NOT_FOUND_ERROR = "Product not found."
+}
+
 class ProductsServiceImpl : ProductsService {
     override suspend fun allProducts(): List<ProductDTO> = dbQuery {
         Product.all().toList().map { toDTO(it) }
     }
 
     override suspend fun product(id: Int): ProductDTO = dbQuery {
-        val product = Product.findById(id) ?: throw NotFoundException("Product not found.")
+        val product = Product.findById(id) ?: throw NotFoundException(Errors.PRODUCT_NOT_FOUND_ERROR)
         toDTO(product)
     }
 
@@ -27,14 +31,14 @@ class ProductsServiceImpl : ProductsService {
     }
 
     override suspend fun editProduct(id: Int, name: String, description: String): ProductDTO = dbQuery {
-        val product = Product.findById(id) ?: throw NotFoundException("Product not found.")
+        val product = Product.findById(id) ?: throw NotFoundException(Errors.PRODUCT_NOT_FOUND_ERROR)
         product.name = name
         product.description = description
         toDTO(product)
     }
 
     override suspend fun deleteProduct(id: Int) = dbQuery {
-        val product = Product.findById(id) ?: throw NotFoundException("Product not found.")
+        val product = Product.findById(id) ?: throw NotFoundException(Errors.PRODUCT_NOT_FOUND_ERROR)
         product.delete()
     }
 }
