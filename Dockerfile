@@ -5,6 +5,8 @@ RUN gradle shadowJar --no-daemon
 
 FROM openjdk:11
 EXPOSE 8080:8080
+ENV DB_USER=$DB_USER
+ENV DB_PASSWORD=$DB_PASSWORD
 RUN mkdir /app
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/ktor-docker-sample.jar
 ENTRYPOINT ["java","-jar","/app/ktor-docker-sample.jar"]
