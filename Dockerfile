@@ -5,6 +5,8 @@ RUN gradle shadowJar --no-daemon
 
 FROM openjdk:11
 EXPOSE 8080:8080
+ARG DB_USER
+ARG DB_PASSWORD
 ENV DB_USER=$DB_USER
 ENV DB_PASSWORD=$DB_PASSWORD
 RUN mkdir /app
