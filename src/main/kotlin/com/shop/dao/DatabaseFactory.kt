@@ -11,12 +11,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object DatabaseFactory {
     fun init() {
-        val driverClassName = "org.postgresql.Driver"
-        val jdbcUrl = "jdbc:postgresql://database-sop.coqkznilr5x3.us-east-1.rds.amazonaws.com:5432/shop"
-        val database = Database.connect(
-            jdbcUrl, driverClassName, System.getenv("DB_USER"),
-            System.getenv("DB_PASSWORD")
-        )
+        val jdbcUrl = "jdbc:sqlite:db.sqlite"
+        val database = Database.connect(jdbcUrl)
         transaction(database) {
             SchemaUtils.create(Products, Orders, OrderedProducts)
         }
