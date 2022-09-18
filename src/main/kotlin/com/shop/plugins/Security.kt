@@ -1,16 +1,16 @@
 package com.shop.plugins
 
-import io.ktor.server.auth.*
-import io.ktor.util.*
-import io.ktor.client.*
-import io.ktor.http.*
-import io.ktor.server.sessions.*
-import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 import com.shop.utils.appHttpClient
+import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
+import io.ktor.util.*
 import kotlinx.serialization.Serializable
 import java.io.File
 
@@ -29,7 +29,7 @@ fun Application.configureSecurity(httpClient: HttpClient = appHttpClient) {
 
     install(Authentication) {
         oauth("auth-oauth-google") {
-            urlProvider = { "$BACKEND_URL/callback" }
+            urlProvider = { "$APP_URL/api/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "google",
