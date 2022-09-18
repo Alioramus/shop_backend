@@ -1,5 +1,6 @@
 package com.shop.plugins
 
+import com.shop.resources.meRoutes
 import com.shop.resources.ordersRoutes
 import com.shop.resources.productRoutes
 import io.ktor.http.*
@@ -31,6 +32,7 @@ fun Application.configureRouting() {
     routing {
         productRoutes()
         ordersRoutes()
+        meRoutes()
     }
 }
 
