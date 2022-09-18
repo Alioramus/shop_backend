@@ -2,6 +2,7 @@ package com.shop.resources
 
 import com.shop.models.ProductDTO
 import com.shop.services.productsService
+import com.shop.utils.checkAdminAccess
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -26,6 +27,7 @@ fun Routing.productRoutes() {
         call.respond(productsService.allProducts())
     }
     post<ProductsResource> {
+        checkAdminAccess(call)
         val product = call.receive<ProductDTO>()
         val newProduct = productsService.addNewProduct(product)
         call.respond(HttpStatusCode.Created, newProduct)
@@ -35,10 +37,12 @@ fun Routing.productRoutes() {
         call.respond(product)
     }
     delete<ProductsResource.Id> {
+        checkAdminAccess(call)
         productsService.deleteProduct(it.id)
         call.respond(HttpStatusCode.NoContent)
     }
     put<ProductsResource.Id> {
+        checkAdminAccess(call)
         val product = call.receive<ProductDTO>()
         val updated = productsService.editProduct(it.id, product.name, product.description)
         call.respond(updated)

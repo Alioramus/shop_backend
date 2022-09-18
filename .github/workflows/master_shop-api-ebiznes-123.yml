@@ -32,3 +32,8 @@ jobs:
           push: true
           tags: shopebiznes123.azurecr.io/shop-api:latest
           file: ./Dockerfile
+          build-args: |
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+            BACKEND_URL=${{ secrets.BACKEND_URL }}
+            APP_URL=${{ secrets.APP_URL }}
