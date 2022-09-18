@@ -1,19 +1,26 @@
 package com.shop.services
 
 import com.shop.dao.DatabaseFactory.dbQuery
-import com.shop.models.Product
-import com.shop.models.ProductDTO
-import com.shop.models.toDTO
+import com.shop.models.*
 import io.ktor.server.plugins.*
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.SizedIterable
 
 object Errors {
     const val PRODUCT_NOT_FOUND_ERROR = "Product not found."
+    const val CATEGORY_NOT_FOUND_ERROR = "Category not found."
 }
 
 class ProductsServiceImpl : ProductsService {
-    override suspend fun allProducts(): List<ProductDTO> = dbQuery {
-        Product.all().toList().map { toDTO(it) }
+    override suspend fun allProducts(category: Int?): List<ProductDTO> = dbQuery {
+        val products: SizedIterable<Product> = if (category == null) {
+            Product.all()
+        } else {
+            Product.find {
+                Products.category eq category
+            }
+        }
+        products.toList().map { toDTO(it)}
     }
 
     override suspend fun product(id: Int): ProductDTO = dbQuery {
@@ -22,9 +29,11 @@ class ProductsServiceImpl : ProductsService {
     }
 
     override suspend fun addNewProduct(product: ProductDTO): ProductDTO = dbQuery {
+        val categoryRecord = Category[product.category]
         val newProduct = Product.new {
             name = product.name
             description = product.description
+            category = categoryRecord.id
             price = product.price
         }
         toDTO(newProduct)
@@ -46,7 +55,8 @@ class ProductsServiceImpl : ProductsService {
 val productsService: ProductsService = ProductsServiceImpl().apply {
     runBlocking {
         if(allProducts().isEmpty()) {
-            addNewProduct(ProductDTO(0, "Sweets", "Very sweet...", 5.0))
+            val food = categoriesService.addNewCategory(CategoryDTO(0, "Food", "Food and more"))
+            addNewProduct(ProductDTO(0, "Sweets", "Very sweet...", food.id, 5.0))
         }
     }
 }

@@ -16,15 +16,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Resource("/products")
-class ProductsResource {
+class ProductsResource(val category: Int? = null) {
     @Serializable
     @Resource("{id}")
-    class Id(val parent: ProductsResource = ProductsResource(), val id: Int)
+    class Id(val parent: ProductsResource = ProductsResource(null), val id: Int)
 }
 
 fun Routing.productRoutes() {
-    get<ProductsResource> {
-        call.respond(productsService.allProducts())
+    get<ProductsResource> { product ->
+        call.respond(productsService.allProducts(product.category))
     }
     post<ProductsResource> {
         checkAdminAccess(call)

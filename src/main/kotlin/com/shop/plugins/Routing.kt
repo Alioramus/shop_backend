@@ -1,5 +1,6 @@
 package com.shop.plugins
 
+import com.shop.resources.categoryRoutes
 import com.shop.resources.meRoutes
 import com.shop.resources.ordersRoutes
 import com.shop.resources.productRoutes
@@ -31,6 +32,7 @@ fun Application.configureRouting() {
 
     routing {
         productRoutes()
+        categoryRoutes()
         ordersRoutes()
         meRoutes()
     }
