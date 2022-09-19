@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/orders/47344e66-3d0c-4b78-a891-1eb324d10311/products
+GET http://localhost:8080/orders/afb2b528-ffe2-4ae9-b129-c8be4d13b15c/products
 Accept: application/json
 
 ###

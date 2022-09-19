@@ -37,3 +37,4 @@ jobs:
             GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
             BACKEND_URL=${{ secrets.BACKEND_URL }}
             APP_URL=${{ secrets.APP_URL }}
+            STRIPE_KEY=${{ secrets.STRIPE_KEY }}

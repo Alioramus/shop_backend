@@ -1,6 +1,8 @@
 package com.shop.resources
 
-import com.shop.models.OrderProductsDTO
+import com.shop.models.MakeOrderProductsDTO
+import com.shop.plugins.AuthorizationException
+import com.shop.plugins.UserSession
 import com.shop.services.ordersService
 import io.ktor.http.*
 import io.ktor.resources.*
@@ -10,6 +12,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import kotlinx.serialization.Serializable
 import java.util.*
 
@@ -30,8 +33,9 @@ fun Routing.ordersRoutes() {
         call.respond(ordersService.listOrders())
     }
     post<OrdersResource> {
-        val product = call.receive<OrderProductsDTO>()
-        ordersService.makeOrder(product)
+        val order = call.receive<MakeOrderProductsDTO>()
+        val userSession: UserSession = call.sessions.get() ?: throw AuthorizationException()
+        ordersService.makeOrder(order, userSession.userId)
         call.respond(HttpStatusCode.Created)
     }
     get<OrdersResource.Id.Products> {

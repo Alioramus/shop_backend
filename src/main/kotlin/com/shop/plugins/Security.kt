@@ -15,8 +15,8 @@ import kotlinx.serialization.Serializable
 import java.io.File
 
 fun Application.configureSecurity(httpClient: HttpClient = appHttpClient) {
-    val BACKEND_URL: String = System.getenv("BACKEND_URL") ?: "http://localhost:8080"
-    val APP_URL: String = System.getenv("APP_URL") ?: "http://localhost:3000"
+    val backendUrl: String = System.getenv("BACKEND_URL") ?: "http://localhost:8080"
+    val appUrl: String = System.getenv("APP_URL") ?: "http://localhost:3000"
 
     install(Sessions) {
         val secretSignKey = hex("6819b57a326945c1968f45236589")
@@ -29,7 +29,7 @@ fun Application.configureSecurity(httpClient: HttpClient = appHttpClient) {
 
     install(Authentication) {
         oauth("auth-oauth-google") {
-            urlProvider = { "$APP_URL/api/callback" }
+            urlProvider = { "$backendUrl/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "google",
@@ -59,7 +59,7 @@ fun Application.configureSecurity(httpClient: HttpClient = appHttpClient) {
                     }
                 }.body()
                 call.sessions.set(UserSession(userInfo.id, userInfo.name, principal?.accessToken.toString()))
-                call.respondRedirect("$APP_URL/products")
+                call.respondRedirect("$appUrl/products")
             }
         }
     }

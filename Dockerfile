@@ -13,6 +13,8 @@ ARG GOOGLE_CLIENT_ID
 ARG GOOGLE_CLIENT_SECRET
 ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
 ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+ARG STRIPE_KEY
+ENV STRIPE_KEY=$STRIPE_KEY
 RUN mkdir /app
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/ktor-docker-sample.jar
 ENTRYPOINT ["java","-jar","/app/ktor-docker-sample.jar"]

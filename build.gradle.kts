@@ -56,6 +56,7 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:3.34.0")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("com.stripe:stripe-java:21.8.0")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

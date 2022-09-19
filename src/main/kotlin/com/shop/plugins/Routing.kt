@@ -1,9 +1,6 @@
 package com.shop.plugins
 
-import com.shop.resources.categoryRoutes
-import com.shop.resources.meRoutes
-import com.shop.resources.ordersRoutes
-import com.shop.resources.productRoutes
+import com.shop.resources.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -35,6 +32,7 @@ fun Application.configureRouting() {
         categoryRoutes()
         ordersRoutes()
         meRoutes()
+        promotionRoutes()
     }
 }
 
