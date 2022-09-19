@@ -29,7 +29,7 @@ fun Application.configureSecurity(httpClient: HttpClient = appHttpClient) {
 
     install(Authentication) {
         oauth("auth-oauth-google") {
-            urlProvider = { "$backendUrl/callback" }
+            urlProvider = { "$appUrl/api/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
                     name = "google",
