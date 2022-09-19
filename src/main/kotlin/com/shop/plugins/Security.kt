@@ -15,7 +15,6 @@ import kotlinx.serialization.Serializable
 import java.io.File
 
 fun Application.configureSecurity(httpClient: HttpClient = appHttpClient) {
-    val backendUrl: String = System.getenv("BACKEND_URL") ?: "http://localhost:8080"
     val appUrl: String = System.getenv("APP_URL") ?: "http://localhost:3000"
 
     install(Sessions) {
